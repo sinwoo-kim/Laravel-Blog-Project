@@ -46,7 +46,7 @@
 
             <div>
 
-                <form action="{{ url('create') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('posts') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="div_center">
                         <label>Post Title</label>
