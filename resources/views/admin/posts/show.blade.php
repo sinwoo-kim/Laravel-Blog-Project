@@ -60,6 +60,8 @@
                     <th>UserType</th>
                     <th>Image</th>
                     <th>Delete</th>
+                    <th>Edit</th>
+
                 </tr>
                 @foreach ($post as $p)
                     <tr>
@@ -76,6 +78,10 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
+                        </td>
+
+                        <td>
+                            <a href="{{ url('/posts/' . $p->id . '/edit') }}" class="btn btn-success">Edit</a>
                         </td>
                     </tr>
                 @endforeach
