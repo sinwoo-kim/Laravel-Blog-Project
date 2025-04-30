@@ -70,11 +70,11 @@
                         <td>{{ $p->usertype }}</td>
                         <td><img class="img_deg" src="postimage/{{ $p->image }}"></td>
                         <td>
-                            <form action="{{ url('/posts/' . $p->id) }}" method="POST">
+                            <form action="{{ url('/posts/' . $p->id) }}" method="POST"
+                                onsubmit="return confirm('Are you sure to Delete This?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are You sure to Delete This?')">Delete</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>
