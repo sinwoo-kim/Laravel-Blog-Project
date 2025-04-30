@@ -40,6 +40,15 @@
         <!-- Sidebar Navigation end-->
 
         <div class="page-content">
+
+            @if (session()->has('message'))
+                <div class="alert alert-danger">
+
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+
+                    {{ session()->get('message') }}
+                </div>
+            @endif
             <h1 class="title_deg">All Post</h1>
 
             <table class="table_deg">
@@ -64,7 +73,8 @@
                             <form action="{{ url('/posts/' . $p->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Are You sure to Delete This?')">Delete</button>
                             </form>
                         </td>
                     </tr>
