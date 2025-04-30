@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     //
-    public function post_page()
+    public function create()
     {
-        return view('admin.post_page');
+        return view('admin/posts.create');
     }
 
-    public function add_post(Request $request)
+    public function store(Request $request)
     {
         $user = auth()->user();
         $userId = $user->id;
@@ -43,10 +43,18 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Post Added Successfully');
     }
 
-    public function show_post()
+    public function index()
     {
         $post = Post::all();
 
-        return view('admin.show_post', compact('post'));
+        return view('admin/posts.show', compact('post'));
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+
+        $post->delete();
+        return redirect()->back()->with('message', 'Post Deleted Successfully');
     }
 }

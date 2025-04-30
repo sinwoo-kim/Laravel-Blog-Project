@@ -5,14 +5,21 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
+
+/* ========= Home Controller =========== */
 Route::get('/', [HomeController::class, 'homepage']);
-
-
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/post_page', [AdminController::class, 'post_page']);
 
-Route::post('/add_post', [AdminController::class, 'add_post']);
 
-Route::get('/show_post', [AdminController::class, 'show_post']);
+/* ========= Admin Controller =========== */
+
+// 포스트 관련 라우팅
+Route::get('/posts/create', [AdminController::class, 'create']);
+
+Route::get('/posts', [AdminController::class, 'index']);
+
+Route::post('/posts', [AdminController::class, 'store']);
+
+Route::delete('/posts/{id}', [AdminController::class, 'destroy']);
