@@ -46,7 +46,7 @@
 
             <div>
 
-                <form action="{{ url('create') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('posts') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="div_center">
                         <label>Post Title</label>
@@ -61,7 +61,7 @@
                         <input type="file" name="image">
                     </div>
                     <div class="div_center">
-                        <input type="submit" name="btn btn-primary" value="Submit">
+                        <input type="submit" class="btn btn-primary" value="Submit">
                     </div>
                 </form>
             </div>
