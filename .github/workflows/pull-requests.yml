@@ -1,4 +1,4 @@
-name: Pull Requests
+name: PR Test Workflow
 
 on:
   pull_request:
