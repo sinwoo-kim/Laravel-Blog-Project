@@ -1,12 +1,13 @@
-name: PR Test Workflow
+name: CI
 
 on:
-  pull_request:
-    branches:
-      - dev
   push:
-    branches:
-      - dev
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -15,30 +16,36 @@ jobs:
     services:
       mysql:
         image: mysql:8.0
-        env:
-          MYSQL_DATABASE: blogproject
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3307:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: blogproject
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress
+          extensions: mbstring, pdo, mysql, bcmath, intl, fileinfo
+          coverage: none
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install NPM dependencies and build Vite
+      - name: Install dependencies (PHP)
+        run: composer install --no-progress --prefer-dist
+
+      - name: Install dependencies (Node.js)
         run: |
           npm ci
           npm run build
@@ -46,11 +53,26 @@ jobs:
       - name: Copy .env
         run: cp .env.example .env
 
-      - name: Generate application key
+      - name: Generate app key
         run: php artisan key:generate
 
-      - name: Run migrations
+      - name: Migrate database
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3307
+          DB_DATABASE: blogproject
+          DB_USERNAME: root
+          DB_PASSWORD:
         run: php artisan migrate --force
 
       - name: Run tests
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3307
+          DB_DATABASE: blogproject
+          DB_USERNAME: root
+          DB_PASSWORD:
+          SESSION_DRIVER: file
         run: php artisan test
