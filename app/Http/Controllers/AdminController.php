@@ -50,6 +50,35 @@ class AdminController extends Controller
         return view('admin/posts.show', compact('post'));
     }
 
+    public function edit($id, Request $request)
+    {
+        $post = Post::findOrFail($id);
+
+        return view('admin/posts.edit', compact('post'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+
+        $image = $request->image;
+
+        if ($image) {
+            $imagename = time() . '.' . $image->getClientOriginalExtension();
+            $request->image->move('postimage', $imagename);
+            $post->image = $imagename;
+        }
+
+
+
+        $post->save();
+
+        return redirect()->back()->with('message', 'Post Updated Successfully');
+    }
+
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
