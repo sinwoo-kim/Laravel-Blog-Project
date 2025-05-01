@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <base href="/public">
     @include('admin.css')
 
     <style type="text/css">
@@ -63,16 +64,16 @@
                     <th>Edit</th>
 
                 </tr>
-                @foreach ($post as $p)
+                @foreach ($post as $post)
                     <tr>
-                        <td>{{ $p->title }}</td>
-                        <td>{{ $p->description }}</td>
-                        <td>{{ $p->name }}</td>
-                        <td>{{ $p->post_status }}</td>
-                        <td>{{ $p->usertype }}</td>
-                        <td><img class="img_deg" src="postimage/{{ $p->image }}"></td>
+                        <td>{{ $post->title }}</td>
+                        <td>{{ $post->description }}</td>
+                        <td>{{ $post->name }}</td>
+                        <td>{{ $post->post_status }}</td>
+                        <td>{{ $post->usertype }}</td>
+                        <td><img class="img_deg" src="postimage/{{ $post->image }}"></td>
                         <td>
-                            <form action="{{ url('/posts/' . $p->id) }}" method="POST"
+                            <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure to Delete This?')">
                                 @csrf
                                 @method('DELETE')
@@ -81,7 +82,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ url('/posts/' . $p->id . '/edit') }}" class="btn btn-success">Edit</a>
+                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-success">Edit</a>
                         </td>
                     </tr>
                 @endforeach

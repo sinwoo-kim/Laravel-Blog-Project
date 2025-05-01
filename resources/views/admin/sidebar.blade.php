@@ -9,9 +9,9 @@
     </div>
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
     <ul class="list-unstyled">
-        <li class="active"><a href="home"> <i class="icon-home"></i>Home </a></li>
-        <li><a href="{{ url('/posts/create') }}"> <i class="icon-grid"></i>Add Post </a></li>
-        <li><a href="{{ url('/posts') }}"> <i class="fa fa-bar-chart"></i>Show Post </a></li>
+        <li class="active"><a href="{{ route('admin.home') }}"> <i class="icon-home"></i>Home </a></li>
+        <li><a href="{{ route('admin.posts.create') }}"> <i class="icon-grid"></i>Add Post </a></li>
+        <li><a href="{{ route('admin.posts.index') }}"> <i class="fa fa-bar-chart"></i>Show Post </a></li>
         <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>
         <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
                     class="icon-windows"></i>Example dropdown </a>
