@@ -11,7 +11,7 @@ class AdminController extends Controller
     //
     public function create()
     {
-        return view('admin/posts.create');
+        return view('admin.posts.create');
     }
 
     public function store(Request $request)
@@ -47,14 +47,19 @@ class AdminController extends Controller
     {
         $post = Post::all();
 
-        return view('admin/posts.show', compact('post'));
+        return view('admin.posts.show', compact('post'));
     }
 
-    public function edit($id, Request $request)
+    public function adminIndex()
+    {
+        return view('admin.adminhome');
+    }
+
+    public function edit($id)
     {
         $post = Post::findOrFail($id);
 
-        return view('admin/posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post'));
 
     }
 

@@ -46,7 +46,7 @@
 
             <div>
 
-                <form action="{{ url('posts') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="div_center">
                         <label>Post Title</label>
