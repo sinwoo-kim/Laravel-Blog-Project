@@ -10,7 +10,7 @@ use App\Http\Controllers\AdminHomeController;
 /* ========= Home Controller =========== */
 Route::get('/', [HomeController::class, 'homepage']);
 
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')
+Route::get('/home', [HomeController::class, 'handleHomeRoute'])->middleware('auth')
     ->name('home');
 
 Route::middleware(['auth'])->group(function () {

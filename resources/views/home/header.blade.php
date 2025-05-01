@@ -38,6 +38,7 @@
                 @if (Route::has('login'))
                     @auth
                         <li><a href="{{ route('posts.create') }}">Create Post</a></li>
+                        <li><a href="{{ route('posts.index') }}">My Posts</a></li>
                         <li><x-app-layout> </x-app-layout>
                         </li>
                     @else
