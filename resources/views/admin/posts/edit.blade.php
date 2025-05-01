@@ -23,6 +23,7 @@
             width: 200px;
         }
     </style>
+
 </head>
 
 <body>
@@ -31,6 +32,7 @@
         <!-- Sidebar Navigation-->
         @include('admin.sidebar')
         <!-- Sidebar Navigation end-->
+
         <div class="page-content">
 
             @if (session()->has('message'))
@@ -42,22 +44,29 @@
                 </div>
             @endif
 
-            <h1 class="post_title">Add Post</h1>
+            <h1 class="post_title">Update Post</h1>
 
             <div>
 
-                <form action="{{ url('posts') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('/posts/' . $post->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="div_center">
                         <label>Post Title</label>
-                        <input type="text" name="title">
+                        <input type="text" name="title" value="{{ $post->title }}">
                     </div>
                     <div class="div_center">
                         <label>Post Description</label>
-                        <textarea name="description"></textarea>
+                        <textarea name="description">{{ $post->description }}</textarea>
                     </div>
+
                     <div class="div_center">
-                        <label>Add Image</label>
+                        <label>Old image</label>
+                        <img style="margin:auto;" height="150px" width="150px" src="/postimage/{{ $post->image }}">
+                    </div>
+
+                    <div class="div_center">
+                        <label>Update Old Image</label>
                         <input type="file" name="image">
                     </div>
                     <div class="div_center">
@@ -65,8 +74,9 @@
                     </div>
                 </form>
             </div>
+
+
             @include('admin.footer')
-        </div>
 </body>
 
 </html>
