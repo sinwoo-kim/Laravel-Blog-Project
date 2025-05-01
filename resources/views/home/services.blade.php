@@ -6,7 +6,7 @@
         <div class="services_section_2">
             <div class="row">
 
-                @foreach ($post as $post)
+                @foreach ($posts as $post)
                     <div class="col-md-4">
                         <div><img style="margin-bottom: 20px; height: 350px" width="350px"
                                 src="/postimage/{{ $post->image }}" class="services_img"></div>
