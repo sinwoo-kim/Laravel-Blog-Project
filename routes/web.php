@@ -4,14 +4,18 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminHomeController;
 
 
 /* ========= Home Controller =========== */
 Route::get('/', [HomeController::class, 'homepage']);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')
+    ->name('home');
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::resource('posts', HomeController::class);
+});
 
 /* ========= Admin Controller =========== */
 
@@ -26,4 +30,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Route::put('/posts/{id}', [AdminController::class, 'edit']);
 
-Route::resource('posts', AdminController::class);
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+
+    Route::get('/', [AdminController::class, 'adminIndex'])->name('home');
+
+    Route::resource('posts', AdminController::class);
+});
+
+/* ========= Admin Controller =========== */
