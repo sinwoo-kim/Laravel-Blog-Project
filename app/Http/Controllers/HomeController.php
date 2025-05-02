@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         if (Auth::id()) // 현재 로그인한 사용자의 ID를 반환
         {
-            $posts = Post::all();
+
             $usertype = Auth()->user()->usertype;
 
             if ($usertype == 'user') {
@@ -66,7 +66,7 @@ class HomeController extends Controller
         if ($image) {
             $imagename = time() . '.' . $image->getClientOriginalExtension();
 
-            $request->move('postimage', $imagename);
+            $request->image->move('postimage', $imagename);
 
             $post->image = $imagename;
         }
@@ -80,7 +80,7 @@ class HomeController extends Controller
 
     public function homepage()
     {
-        $posts = Post::all();
+        $posts = Post::where('post_status', '=', 'active')->get();
         return view('home.homepage', compact('posts'));
     }
 
@@ -115,6 +115,7 @@ class HomeController extends Controller
         Alert::success('success', 'Post Updated Successfully');
         return redirect()->back();
     }
+
 
     public function destroy($id)
     {
