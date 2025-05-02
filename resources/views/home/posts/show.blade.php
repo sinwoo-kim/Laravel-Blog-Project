@@ -21,6 +21,21 @@
         <h4><b>{{ $post->title }}</b></h4>
         <h4>{{ $post->description }}</h4>
         <p>Post by <b>{{ $post->name }}</b></p>
+
+        <div class="div_center">
+            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success">Edit</a>
+            <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
+                onsubmit="return confirm('Are you sure to Delete This?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+
+
+
+
+
     </div>
 
 
@@ -32,6 +47,7 @@
 
     <!-- footer section start -->
     @include('home.footer')
+    @include('sweetalert::alert')
 </body>
 
 </html>

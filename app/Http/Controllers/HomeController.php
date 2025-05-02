@@ -66,16 +66,16 @@ class HomeController extends Controller
         if ($image) {
             $imagename = time() . '.' . $image->getClientOriginalExtension();
 
-            $request->image()->move('postimage', $imagename);
+            $request->move('postimage', $imagename);
 
             $post->image = $imagename;
         }
 
         $post->save();
 
-        Alert::info('Success', 'You have Added the post');
-
-        return redirect()->back();
+        Alert::success('success', 'Post Updated Successfully');
+        // 명시적으로 인텐디드 URL 지정
+        return redirect()->route('posts.index');
     }
 
     public function homepage()
@@ -86,8 +86,51 @@ class HomeController extends Controller
 
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         return view('home.posts.show', compact('post'));
     }
 
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('home.posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+
+        $image = $request->image;
+
+        if ($image) {
+            $imagename = time() . '.' . $image->getClientOriginalExtension();
+            $request->image->move('postimage', $imagename);
+            $post->image = $imagename;
+        }
+
+        $post->save();
+
+        Alert::success('success', 'Post Updated Successfully');
+        return redirect()->back();
+    }
+
+    public function destroy($id)
+    {
+
+        $post = Post::findOrFail($id);
+        // 모델이 자동으로 주입됨
+        if ($post->image) {
+            $imagePath = public_path('postimage/' . $post->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        $post->delete();
+
+        Alert::success('success', 'Post Deleted Successfully');
+        return redirect()->route('posts.index');
+    }
 }
