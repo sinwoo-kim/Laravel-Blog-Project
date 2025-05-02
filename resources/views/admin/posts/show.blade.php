@@ -3,6 +3,7 @@
 
 <head>
     <base href="/public">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('admin.css')
 
     <style type="text/css">
@@ -62,6 +63,7 @@
                     <th>Image</th>
                     <th>Delete</th>
                     <th>Edit</th>
+                    <th>Status</th>
 
                 </tr>
                 @foreach ($post as $post)
@@ -84,6 +86,36 @@
                         <td>
                             <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-success">Edit</a>
                         </td>
+                        <td id="status-cell-{{ $post->id }}">
+                            @if ($post->post_status === 'pending')
+                                <form id="accept-form-{{ $post->id }}"
+                                    action="{{ route('admin.posts.status.update', $post->id) }}" method="POST"
+                                    onsubmit="return handleStatusUpdate(event, {{ $post->id }}, 'active')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="post_status" value="active">
+                                    <button type="submit" class="btn btn-outline-secondary">Accept</button>
+                                </form>
+                            @elseif($post->post_status === 'active')
+                                <form id="reject-form-{{ $post->id }}"
+                                    action="{{ route('admin.posts.status.update', $post->id) }}" method="POST"
+                                    onsubmit="return handleStatusUpdate(event, {{ $post->id }}, 'reject')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="post_status" value="reject">
+                                    <button type="submit" class="btn btn-outline-danger">Reject</button>
+                                </form>
+                            @elseif($post->post_status === 'reject')
+                                <form id="accept-form-{{ $post->id }}"
+                                    action="{{ route('admin.posts.status.update', $post->id) }}" method="POST"
+                                    onsubmit="return handleStatusUpdate(event, {{ $post->id }}, 'active')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="post_status" value="active">
+                                    <button type="submit" class="btn btn-outline-secondary">Accept</button>
+                                </form>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </table>
@@ -92,6 +124,8 @@
 
         @include('admin.footer')
     </div>
+    <script src="{{ asset('js/handleStatusUpdate.js') }}"></script>
+    @include('sweetalert::alert')
 </body>
 
 </html>
