@@ -17,24 +17,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('posts', HomeController::class);
 });
 
+
 /* ========= Admin Controller =========== */
-
-// 포스트 관련 라우팅
-// Route::get('/posts/create', [AdminController::class, 'create']);
-
-// Route::get('/posts', [AdminController::class, 'index']);
-
-// Route::post('/posts', [AdminController::class, 'store']);
-
-// Route::delete('/posts/{id}', [AdminController::class, 'destroy']);
-
-// Route::put('/posts/{id}', [AdminController::class, 'edit']);
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
     Route::get('/', [AdminController::class, 'adminIndex'])->name('home');
 
     Route::resource('posts', AdminController::class);
+    Route::patch('posts/{id}/status', [AdminController::class, 'postStatusUpdate'])->name('posts.status.update');
 });
 
 /* ========= Admin Controller =========== */

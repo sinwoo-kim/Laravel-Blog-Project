@@ -77,12 +77,27 @@ class AdminController extends Controller
             $post->image = $imagename;
         }
 
-
-
         $post->save();
 
         return redirect()->back()->with('message', 'Post Updated Successfully');
     }
+
+    public function postStatusUpdate(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+        $post->post_status = $request->post_status;
+        $post->save();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post status Updated Successfully'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Post status Updated Successfully');
+    }
+
 
     public function destroy($id)
     {
